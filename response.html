@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Email</title>
+    <link rel="icon" href="imgs/logo2.png" type="image/gif">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Montserrat";
+            background-image: linear-gradient(80deg,gold,white);
+        }
+        section {
+            height: 100vh;
+            width: 100%;
+            /*background-color: aliceblue;*/
+            background-image: url("imgs/ice4.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0px 0px 20px #00000010;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        .form-group {
+            width: 100%;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 5px;
+            font-size: 18px;
+            border: 1px solid rgba(128, 128, 128, 0.199);
+            margin-top: 5px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+        button[type="submit"] {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 20px;
+            font-size: 24px;
+            border-radius: 8px;
+            font-family: "Montserrat";
+            color: purple;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.5s ease background-color;
+        }
+        button[type="submit"]:hover {
+            background-color: rgb(190, 126, 220);
+        }
+        #status {
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            padding: 10px;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+        #status.success {
+            background-color: rgb(211, 250, 153);
+            animation: status 4s ease forwards;
+        }
+        #status.error {
+            background-color: rgb(250, 129, 92);
+            color: white;
+            animation: status 4s ease forwards;
+        }
+        @keyframes status {
+            0% {
+                opacity: 1;
+                pointer-events: all;
+            }
+            90% {
+                opacity: 1;
+                pointer-events: all;
+            }
+            100% {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+
+    </style>
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            // get the form elements defined in your form HTML above
+
+            var form = document.getElementById("my-form");
+            // var button = document.getElementById("my-form-button");
+            var status = document.getElementById("status");
+
+            // Success and Error functions for after the form is submitted
+
+            function success() {
+                form.reset();
+                status.classList.add("success");
+                status.innerHTML = "Thanks!";
+            }
+
+            function error() {
+                status.classList.add("error");
+                status.innerHTML = "Email address is invalide!";
+            }
+
+            // handle the form submission event
+
+            form.addEventListener("submit", function (ev) {
+                ev.preventDefault();
+                var data = new FormData(form);
+                ajax(form.method, form.action, data, success, error);
+            });
+        });
+
+        // helper function for sending an AJAX request
+
+        function ajax(method, url, data, success, error) {
+            var xhr = new XMLHttpRequest();
+            xhr.open(method, url);
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState !== XMLHttpRequest.DONE) return;
+                if (xhr.status === 200) {
+                    success(xhr.response, xhr.responseType);
+                } else {
+                    error(xhr.status, xhr.response, xhr.responseType);
+                }
+            };
+            xhr.send(data);
+        }
+
+    </script>
+</head>
+<body>
+<section>
+    <div class="container">
+       <p><a href="Home1.html"><img src="imgs/home.png" style="width: 20px;height: 20px"/>Home</a></p>
+        <form action="https://formspree.io/f/mgerorja" method="POST" id="my-form">
+
+            <div class="form-group">
+                <label for="firstName"> First Name</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+
+            <div class="form-group">
+                <label id="latsName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="massage">Massage</label>
+                <textarea name="massage" id="massage" cols="30" rows="10" required></textarea>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div id="status"></div>
+</section>
+</body>
+</html>
